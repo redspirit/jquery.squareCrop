@@ -24,6 +24,7 @@ $.fn.squareCrop = function(options) {
 	}	
 	
 	this.each(function() {
+		var loaded_flag = false;
 		var img = $(this);
 		var block = document.createElement('div');
 		$(block).css({
@@ -36,6 +37,8 @@ $.fn.squareCrop = function(options) {
 		
 		if(img.is('img')){
 			img.on('load', function(){
+				if(loaded_flag) return;
+				loaded_flag = true;			
 				if(img.height() >= img.width()){
 					img.css('width', settings.size + 'px');
 					var calc = -Math.round((img.height() - settings.size) / settings.verticalOffset );
@@ -65,6 +68,8 @@ $.fn.imageCrop = function(options) {
 		'wrapClass': 'imagecrop'
     }, options);
 	
+	
+	
 	function isImageLoaded(img) {
 		if (!img.complete) return false;
 		if (typeof img.naturalWidth !== "undefined" && img.naturalWidth === 0) return false;
@@ -74,15 +79,19 @@ $.fn.imageCrop = function(options) {
 	this.each(function() {
 		var img = $(this);
 		var block = document.createElement('div');
-		
+		var loaded_flag = false;
 		
 		if(img.is('img')){
 			img.on('load', function(){
+				if(loaded_flag) return;
+				loaded_flag = true;
 
 				var img_w = img.width();
 				var img_h = img.height();
 				var asp_w = this.naturalWidth / img_w;
 				var asp_h = this.naturalHeight / img_h;
+				
+				console.log('load');
 				
 				// do not work in IE < 9
 				// todo use http://www.jacklmoore.com/notes/naturalwidth-and-naturalheight-in-ie/
