@@ -3,18 +3,20 @@
  * Written by Alexey Tayanchin (RedSpirit)
  * Website: http://redspirit.ru
  * EMail: redspirit@live.ru
- * Date: 2013/09/05
+ * Date: 2013/09/09
  *
  * @author Alexey Tayanchin
  * @version 1.0
  *
  **/
 (function($) {
-$.fn.squareCrop = function(options) {
+$.fn.imageCrop = function(options) {
 	var settings = $.extend( {
-      'size' : 100,
-	  'verticalOffset' : 5,
-	  'wrapClass': 'squarecrop'
+      'width' : 100,
+      'height' : 100,
+	  'verticalOffset' : 2,
+	  'circle':false,
+	  'wrapClass': 'image-crop'
     }, options);
 	
 	function isImageLoaded(img) {
@@ -28,8 +30,8 @@ $.fn.squareCrop = function(options) {
 		var img = $(this);
 		var block = document.createElement('div');
 		$(block).css({
-			width: settings.size + 'px',
-			height: settings.size + 'px',
+			width: settings.width + 'px',
+			height: settings.height + 'px',
 			overflow: 'hidden',
 			display: 'inline-block'
 		}).addClass(settings.wrapClass);
@@ -39,13 +41,13 @@ $.fn.squareCrop = function(options) {
 			img.on('load', function(){
 				if(loaded_flag) return;
 				loaded_flag = true;			
-				if(img.height() >= img.width()){
-					img.css('width', settings.size + 'px');
-					var calc = -Math.round((img.height() - settings.size) / settings.verticalOffset );
+				if(img.height() >= settings.height){
+					img.css('width', settings.width + 'px');
+					var calc = -Math.round((img.height() - settings.height) / settings.verticalOffset );
 					img.css('marginTop', calc + 'px');
 				} else {
-					img.css('height', settings.size + 'px');
-					var calc = -Math.round((img.width() - settings.size) / 2);
+					img.css('height', settings.height + 'px');
+					var calc = -Math.round((img.width() - settings.width) / 2);
 					img.css('marginLeft', calc + 'px');
 				}
 			});
@@ -57,15 +59,13 @@ $.fn.squareCrop = function(options) {
 	});
 };
 
-$.fn.imageCrop = function(options) {
+$.fn.paddingCrop = function(options) {
 	var settings = $.extend( {
 		'left' : 0,
 		'top' : 0,
 		'right' : 0,
 		'bottom' : 0,
-		'width' : false,
-		'height' : false,
-		'wrapClass': 'imagecrop'
+		'wrapClass': 'padding-crop'
     }, options);
 	
 	
